@@ -11,9 +11,8 @@
 #import "MapViewController.h"
 
 @interface PhotosInPlacesTableViewController : PhotoTableViewController
+
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *refreshSpinner;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *mapButton;
-@property (weak, nonatomic)NSDictionary *photoToDisplay;
 
--(void)segueWithIdentifier:(NSString *)identifier sender:(id)sender;
 @end

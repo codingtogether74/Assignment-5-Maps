@@ -64,8 +64,7 @@
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
     PhotoAnnotation *annotation = (PhotoAnnotation *)view.annotation;
-    NSDictionary *photo = annotation.photo;
-    [self.delegate segueWithIdentifier:@"Show Photo" sender:photo];
+    [self.delegate segueForAnnotation:annotation];
 //    NSLog(@"callout accessory tapped for annotation %@", [view.annotation title]);
 }
 

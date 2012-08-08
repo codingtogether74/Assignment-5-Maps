@@ -8,7 +8,6 @@
 
 #import "PhotosInPlacesTableViewController.h"
 #import "RecentsUserDefaults.h"
-#import "MapViewController.h"
 #import "PhotoAnnotation.h"
 #import "TopPlacesPhotoViewController.h"
 
@@ -19,7 +18,6 @@
 @implementation PhotosInPlacesTableViewController
 @synthesize refreshSpinner;
 @synthesize mapButton;
-@synthesize photoToDisplay=_photoToDisplay;
 
 - (void)awakeFromNib
 {
@@ -88,15 +86,17 @@
     return pvc;
 }
 
--(void)segueWithIdentifier:(NSString *)identifier sender:(id)sender
+-(void)segueForAnnotation:(id <MKAnnotation>)annotation
 {
-    self.photoToDisplay = sender;
-//---------------------------------------------------
+
+    PhotoAnnotation *fpa = (PhotoAnnotation *)annotation;
+    NSDictionary *photoToDisplay=fpa.photo;
+    //---------------------------------------------------
     id vc = [self.splitViewController.viewControllers lastObject];
     if ([vc isKindOfClass:[TopPlacesPhotoViewController class]])
-        [vc setPhoto:sender];
+        [vc setPhoto:photoToDisplay];
     else
-        [self performSegueWithIdentifier:@"Show Photo" sender:sender];
+        [self performSegueWithIdentifier:@"Show Photo" sender:photoToDisplay];
 //-----------------------------------------------------
 }
 

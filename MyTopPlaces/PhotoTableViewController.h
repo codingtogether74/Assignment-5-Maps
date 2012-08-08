@@ -1,3 +1,10 @@
+//
+//  PhotoTableViewController.h
+//  MyTopPlaces
+//
+//  Created by Tatiana Kornilova on 8/03/12.
+//
+//
 #import <UIKit/UIKit.h>
 
 #import "FlickrFetcher.h"
