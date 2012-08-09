@@ -40,7 +40,7 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <connections>
-                                    <segue destination="2hg-oo-poA" kind="push" id="l72-se-p9p"/>
+                                    <segue destination="2hg-oo-poA" kind="push" identifier="Show place" id="l72-se-p9p"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -49,7 +49,13 @@
                             <outlet property="delegate" destination="gTg-gJ-r36" id="Bm5-b4-e1d"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Top Places" id="pfC-Zp-HEF"/>
+                    <navigationItem key="navigationItem" title="Top Places" id="pfC-Zp-HEF">
+                        <barButtonItem key="rightBarButtonItem" title="Map" id="yVP-8W-15J">
+                            <connections>
+                                <segue destination="UfU-xf-qGy" kind="push" id="ksn-bu-uG1"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
             </objects>
             <point key="canvasLocation" x="1155" y="94"/>
@@ -98,7 +104,16 @@
                             <outlet property="delegate" destination="2hg-oo-poA" id="bQZ-Lr-UIK"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Place" id="TOe-zw-4NE"/>
+                    <navigationItem key="navigationItem" title="Place" id="TOe-zw-4NE">
+                        <barButtonItem key="rightBarButtonItem" title="Map" id="seb-ng-3Nu">
+                            <connections>
+                                <segue destination="UfU-xf-qGy" kind="push" identifier="Show map" id="pDb-J1-Ioa"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="mapButton" destination="seb-ng-3Nu" id="hoB-Ko-lp3"/>
+                    </connections>
                 </tableViewController>
             </objects>
             <point key="canvasLocation" x="1576" y="94"/>
@@ -138,7 +153,7 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <connections>
-                                    <segue destination="kSP-hB-VwL" kind="push" id="ZpT-KL-Ift"/>
+                                    <segue destination="kSP-hB-VwL" kind="push" identifier="Show ResPhoto" id="ZpT-KL-Ift"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -147,7 +162,16 @@
                             <outlet property="delegate" destination="4O5-wd-96a" id="t8U-0r-qRC"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Recents" id="JLb-cL-DvG"/>
+                    <navigationItem key="navigationItem" title="Recents" id="JLb-cL-DvG">
+                        <barButtonItem key="rightBarButtonItem" title="Map" id="W4z-gS-2hW">
+                            <connections>
+                                <segue destination="UfU-xf-qGy" kind="push" id="XK8-Lf-P8p"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="mapButton" destination="W4z-gS-2hW" id="42u-YD-fF7"/>
+                    </connections>
                 </tableViewController>
             </objects>
             <point key="canvasLocation" x="1171" y="731"/>
@@ -247,19 +271,101 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="2030" y="518"/>
+            <point key="canvasLocation" x="2104" y="94"/>
+        </scene>
+        <!--Map View Controller-->
+        <scene sceneID="anW-EO-2Ab">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0Ir-JB-NYl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="UfU-xf-qGy" customClass="MapViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="OkI-fw-Gwu">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="Cbt-6L-zuI">
+                                <rect key="frame" x="0.0" y="-11" width="320" height="367"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </mapView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="zQg-Z9-kwk">
+                                <rect key="frame" x="57" y="6" width="207" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="Standard"/>
+                                    <segment title="Satellite"/>
+                                    <segment title="Hybrid"/>
+                                </segments>
+                                <connections>
+                                    <action selector="modeChanged:" destination="UfU-xf-qGy" eventType="valueChanged" id="RAC-An-0nS"/>
+                                </connections>
+                            </segmentedControl>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="ZGu-Tw-Z2u"/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+                    <connections>
+                        <outlet property="mapView" destination="Cbt-6L-zuI" id="nD6-Pz-gbw"/>
+                        <outlet property="modeChanged" destination="zQg-Z9-kwk" id="goT-nP-y5g"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="2104" y="739"/>
         </scene>
     </scenes>
     <resources>
         <image name="07-map-marker.png" width="16" height="26"/>
         <image name="42-photos.png" width="22" height="24"/>
     </resources>
+    <classes>
+        <class className="MapViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MapViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+                <relationship kind="outlet" name="modeChanged" candidateClass="UISegmentedControl"/>
+            </relationships>
+        </class>
+        <class className="PhotoTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PhotoTableViewController.h"/>
+        </class>
+        <class className="PhotosInPlacesTableViewController" superclassName="PhotoTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PhotosInPlacesTableViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="mapButton" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="RecentsTableViewController" superclassName="PhotoTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/RecentsTableViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="mapButton" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="RotatableViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/RotatableViewController.h"/>
+        </class>
+        <class className="TopPlacesPhotoViewController" superclassName="RotatableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TopPlacesPhotoViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="photoImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="photoScrollView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="spinner" candidateClass="UIActivityIndicatorView"/>
+                <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
+            </relationships>
+        </class>
+        <class className="TopPlacesTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TopPlacesTableViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="mapButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="refreshPress" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="a22-Hb-EI9"/>
+        <segue reference="XK8-Lf-P8p"/>
+        <segue reference="ZpT-KL-Ift"/>
     </inferredMetricsTieBreakers>
 </document>

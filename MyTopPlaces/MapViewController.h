@@ -15,10 +15,12 @@
 
 -(UIImage *)mapViewController:(MapViewController *)sender imageForAnnotation:(id<MKAnnotation>)annotation;
 - (void)segueForAnnotation:(id<MKAnnotation>)annotation;
+
 @end
 
 @interface MapViewController : UIViewController
 @property (nonatomic,strong) NSArray *annotations; // of id <MKAnnotations  
 @property (nonatomic,weak) id <MapViewControllerDelegate> delegate;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *modeChanged;
 
 @end

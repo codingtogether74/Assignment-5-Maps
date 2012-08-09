@@ -17,7 +17,7 @@
                     </connections>
                 </splitViewController>
             </objects>
-            <point key="canvasLocation" x="-1184" y="-201"/>
+            <point key="canvasLocation" x="-1296" y="-189"/>
         </scene>
         <!--Top Places Table View Controller - Top Places-->
         <scene sceneID="kLh-Cg-Sct">
@@ -54,7 +54,7 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <connections>
-                                    <segue destination="ayi-ti-l6L" kind="push" id="gbJ-cL-s2L"/>
+                                    <segue destination="ayi-ti-l6L" kind="push" identifier="Show place" id="gbJ-cL-s2L"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -69,14 +69,20 @@
                                 <action selector="refresh:" destination="NaG-Os-qtu" id="ZCm-YJ-sxc"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Map" id="sDG-ys-c9G">
+                            <connections>
+                                <segue destination="C93-J0-m9U" kind="push" identifier="Show map" id="1T3-Ek-RZT"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
                     <connections>
+                        <outlet property="mapButton" destination="sDG-ys-c9G" id="xle-Ii-EAH"/>
                         <outlet property="refreshPress" destination="uYe-0U-6QU" id="q6L-et-zHW"/>
                     </connections>
                 </tableViewController>
             </objects>
-            <point key="canvasLocation" x="747" y="-1411"/>
+            <point key="canvasLocation" x="679" y="-1501"/>
         </scene>
         <!--Photos In Places Table View Controller - Place-->
         <scene sceneID="rqR-Cc-Y1m">
@@ -87,11 +93,6 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="739"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <activityIndicatorView key="tableFooterView" opaque="NO" contentMode="scaleToFill" style="white" id="uek-oW-QjI">
-                            <rect key="frame" x="0.0" y="66" width="320" height="20"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="color" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                        </activityIndicatorView>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Photos Description" textLabel="svw-pi-Gpv" detailTextLabel="iQ7-Gf-H7J" style="IBUITableViewCellStyleSubtitle" id="Oqw-Bg-QrB">
                                 <rect key="frame" x="0.0" y="22" width="320" height="44"/>
@@ -133,8 +134,7 @@
                     </navigationItem>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
                     <connections>
-                        <outlet property="mapButton" destination="KcT-c0-O9c" id="8EQ-rA-9W7"/>
-                        <outlet property="refreshSpinner" destination="uek-oW-QjI" id="Wsv-S7-eve"/>
+                        <outlet property="mapButton" destination="KcT-c0-O9c" id="Xns-Dt-wJU"/>
                     </connections>
                 </tableViewController>
             </objects>
@@ -153,16 +153,29 @@
                                 <rect key="frame" x="0.0" y="-11" width="320" height="739"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </mapView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="kD7-jh-dVN">
+                                <rect key="frame" x="64" y="6" width="207" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="Standard"/>
+                                    <segment title="Satellite"/>
+                                    <segment title="Hybrid"/>
+                                </segments>
+                                <connections>
+                                    <action selector="modeChanged:" destination="C93-J0-m9U" eventType="valueChanged" id="JQP-Qv-4UU"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="Geq-66-mTu"/>
                     <connections>
-                        <outlet property="mapView" destination="ZJa-UF-kpZ" id="Z04-7o-v65"/>
+                        <outlet property="mapView" destination="ZJa-UF-kpZ" id="ob7-EF-dNH"/>
+                        <outlet property="modeChanged" destination="kD7-jh-dVN" id="D3T-o1-GPJ"/>
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="1749" y="-1555"/>
+            <point key="canvasLocation" x="1645" y="-1283"/>
         </scene>
         <!--Recents Table View Controller - Recents-->
         <scene sceneID="DkD-b3-7hj">
@@ -205,8 +218,17 @@
                             <outlet property="delegate" destination="azw-l7-hBj" id="Iom-IO-3kn"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Recents" id="aHn-0S-LF1"/>
+                    <navigationItem key="navigationItem" title="Recents" id="aHn-0S-LF1">
+                        <barButtonItem key="rightBarButtonItem" title="Map" id="m6Y-D0-HjY">
+                            <connections>
+                                <segue destination="C93-J0-m9U" kind="push" id="y0J-r1-eqf"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
+                    <connections>
+                        <outlet property="mapButton" destination="m6Y-D0-HjY" id="y86-LJ-HXI"/>
+                    </connections>
                 </tableViewController>
             </objects>
             <point key="canvasLocation" x="1237" y="-370"/>
@@ -330,6 +352,7 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MapViewController.h"/>
             <relationships>
                 <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+                <relationship kind="outlet" name="modeChanged" candidateClass="UISegmentedControl"/>
             </relationships>
         </class>
         <class className="PhotoTableViewController" superclassName="UITableViewController">
@@ -339,11 +362,13 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PhotosInPlacesTableViewController.h"/>
             <relationships>
                 <relationship kind="outlet" name="mapButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="refreshSpinner" candidateClass="UIActivityIndicatorView"/>
             </relationships>
         </class>
         <class className="RecentsTableViewController" superclassName="PhotoTableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/RecentsTableViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="mapButton" candidateClass="UIBarButtonItem"/>
+            </relationships>
         </class>
         <class className="RotatableViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/RotatableViewController.h"/>
@@ -360,6 +385,7 @@
         <class className="TopPlacesTableViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/TopPlacesTableViewController.h"/>
             <relationships>
+                <relationship kind="outlet" name="mapButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="refreshPress" candidateClass="UIBarButtonItem"/>
             </relationships>
         </class>
@@ -369,4 +395,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="y0J-r1-eqf"/>
+    </inferredMetricsTieBreakers>
 </document>

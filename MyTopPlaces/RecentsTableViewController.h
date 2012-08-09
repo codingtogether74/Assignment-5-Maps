@@ -7,7 +7,10 @@
 //
 
 #import "PhotoTableViewController.h"
+#import "MapViewController.h"
 
 @interface RecentsTableViewController : PhotoTableViewController
+
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *mapButton;
 
 @end

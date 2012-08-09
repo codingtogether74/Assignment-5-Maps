@@ -93,8 +93,6 @@
         // Load the image using the queue
         dispatch_async(dispatchQueue, ^{ 
 
-//        NSURL *photoURL = [FlickrFetcher urlForPhoto:self.photo format:FlickrPhotoFormatLarge];
-//        NSData *photoData = [[NSData alloc] initWithContentsOfURL:photoURL];
 //-------------- check cache ----------------------------------------------------------------------------
         NSURL *photoUrl;
         NSString *urlString;

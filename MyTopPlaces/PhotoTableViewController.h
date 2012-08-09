@@ -12,8 +12,13 @@
 
 @interface PhotoTableViewController : UITableViewController
 
+@property (nonatomic, strong) UIActivityIndicatorView *spinner;
 @property (nonatomic,strong) NSMutableArray *photos;
 @property (nonatomic,strong) NSDictionary *place;
 @property (nonatomic,strong) NSString *cellId;
+@property (nonatomic, strong) UIBarButtonItem *rButton;
+
+- (void)startSpinner;
+- (void)stopSpinner;
 
 @end

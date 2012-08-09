@@ -13,6 +13,7 @@
 @synthesize photos = _photos;
 @synthesize place = _place;
 @synthesize cellId = _cellId;
+@synthesize spinner = _spinner;
 
 -(void)setPhotos:(NSMutableArray *)photos
 {
@@ -25,6 +26,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.spinner = [[UIActivityIndicatorView alloc]
+                    initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     [self retrievePhotoList];
     
 }
@@ -34,6 +37,19 @@
 {
     // Return YES for supported orientations
     return YES;
+}
+
+- (void)startSpinner
+{
+    [self.spinner startAnimating];
+    self.rButton=self.navigationItem.rightBarButtonItem;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.spinner];
+}
+
+- (void)stopSpinner
+{
+    [self.spinner stopAnimating];
+    self.navigationItem.rightBarButtonItem = self.rButton;
 }
 
 #pragma mark - Table view data source

@@ -7,7 +7,6 @@
 //
 
 #import "MapViewController.h"
-#import "PhotoAnnotation.h"
 
 @interface MapViewController ()<MKMapViewDelegate>
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
@@ -18,6 +17,7 @@
 @synthesize mapView=_mapView;
 @synthesize annotations=_annotations;
 @synthesize delegate=_delegate;
+@synthesize modeChanged = _modeChanged;
 
 -(void)updateMapView
 {
@@ -61,11 +61,9 @@
     [(UIImageView *)aView.leftCalloutAccessoryView setImage:image];
 }
 
-- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)aView calloutAccessoryControlTapped:(UIControl *)control
 {
-    PhotoAnnotation *annotation = (PhotoAnnotation *)view.annotation;
-    [self.delegate segueForAnnotation:annotation];
-//    NSLog(@"callout accessory tapped for annotation %@", [view.annotation title]);
+    [self.delegate segueForAnnotation:aView.annotation];
 }
 
 // Position the map so that all overlays and annotations are visible on screen.
@@ -90,6 +88,26 @@
     
     return mapRect;
 }
+- (IBAction)modeChanged:(UISegmentedControl *)sender
+{
+    NSInteger selected = sender.selectedSegmentIndex;
+    
+    switch (selected) {
+        case 0:
+            [self.mapView setMapType:MKMapTypeStandard];
+            break;
+        case 1:
+            [self.mapView setMapType:MKMapTypeSatellite];
+            break;
+        case 2:
+            [self.mapView setMapType:MKMapTypeHybrid];
+            break;
+        default:
+            break;
+    }
+    
+
+}
 
 - (void)viewDidLoad
 {
@@ -105,6 +123,7 @@
 - (void)viewDidUnload
 {
     [self setMapView:nil];
+    [self setModeChanged:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }

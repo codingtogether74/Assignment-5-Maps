@@ -7,8 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MapViewController.h"
 
 @interface TopPlacesTableViewController : UITableViewController
+
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *refreshPress;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *mapButton;
 @property (nonatomic, strong) NSArray *topPlaces;
+
 @end

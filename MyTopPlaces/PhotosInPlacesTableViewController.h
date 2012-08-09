@@ -12,7 +12,6 @@
 
 @interface PhotosInPlacesTableViewController : PhotoTableViewController
 
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *refreshSpinner;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *mapButton;
 
 @end

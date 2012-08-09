@@ -9,16 +9,20 @@
 #import "TopPlacesTableViewController.h"
 #import "FlickrFetcher.h"
 #import "PhotosInPlacesTableViewController.h"
+#import "PlaceAnnotation.h"
 
-@interface TopPlacesTableViewController ()
+@interface TopPlacesTableViewController ()<MapViewControllerDelegate>
 
 @property (nonatomic, strong) NSDictionary *placesByCountry;
 @property (nonatomic, strong) NSArray *countries;
 @property (strong, nonatomic) NSArray *sectionHeaders;
+@property (nonatomic,strong) NSDictionary *placeToDisplay;
+@property (nonatomic,strong) NSString *titleToDisplay;
 @end
 
 @implementation TopPlacesTableViewController
 @synthesize refreshPress = _refreshPress;
+@synthesize mapButton = _mapButton;
 @synthesize topPlaces=_topPlaces;
 @synthesize placesByCountry=_placesByCountry;
 @synthesize countries=_countries;
@@ -125,6 +129,7 @@
 
 - (void)viewDidUnload {
     [self setRefreshPress:nil];    
+    [self setMapButton:nil];
     [super viewDidUnload];
 }
 
@@ -207,28 +212,70 @@
     return cell;	 
 
 }
+- (NSArray *)mapAnnotations
+{
+    NSMutableArray *annotations = [NSMutableArray arrayWithCapacity:[self.topPlaces count]];
+    for (NSDictionary *place in self.topPlaces){
+        [annotations addObject:[PlaceAnnotation annotationForPlace:place]];
+    }
+    return annotations;
+}
+
+#pragma mark - MapViewControllerDelegate
+
+- (UIImage *)mapViewController:(MapViewController *)sender imageForAnnotation:(id <MKAnnotation>)annotation
+{
+    return nil;
+}
+
+
+-(void)segueForAnnotation:(id <MKAnnotation>)annotation
+{
+    
+    PlaceAnnotation *fpa = (PlaceAnnotation *)annotation;
+    self.placeToDisplay=fpa.place;
+    self.titleToDisplay=fpa.title;
+    [self performSegueWithIdentifier:@"Show place" sender:self.placeToDisplay];
+}
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-	int section = self.tableView.indexPathForSelectedRow.section;
-	int row = self.tableView.indexPathForSelectedRow.row;
-	// Identify the selected place from within the places by country dictionary
-	NSDictionary *placeDictionary =
-    [[self.placesByCountry valueForKey:
-     [self.sectionHeaders objectAtIndex:section]] objectAtIndex:row];
-	
-	[self.topPlaces objectAtIndex:self.tableView.indexPathForSelectedRow.row];
+//    if ([segue.destinationViewController isKindOfClass:[PhotosInPlacesTableViewController class]])
+if ([[segue identifier] isEqualToString:@"Show place"])
+{
+ if (self.view.window)
+ {                       //to check where the segue come from, if the TVC window is on screen,it's from cell
+        int section = self.tableView.indexPathForSelectedRow.section;
+	    int row = self.tableView.indexPathForSelectedRow.row;
+	    // Identify the selected place from within the places by country dictionary
+	    NSDictionary *placeDictionary =
+        [[self.placesByCountry valueForKey:
+        [self.sectionHeaders objectAtIndex:section]] objectAtIndex:row];
+	    [self.topPlaces objectAtIndex:self.tableView.indexPathForSelectedRow.row];
 
-    // Set up the photo descriptions in the PhotoDescriptionViewController
-    [[segue destinationViewController] setPlace:placeDictionary ];
-    [segue.destinationViewController setTitle:[[sender textLabel] text]];
-/*-------------------Not by country------------------------------
+       [[segue destinationViewController] setPlace:placeDictionary ];
+       [segue.destinationViewController setTitle:[[sender textLabel] text]];
+ } else {// then it from map callout
+     [segue.destinationViewController setPlace:self.placeToDisplay];
+     [segue.destinationViewController setTitle:self.titleToDisplay];
+}
+/*-------------------Not by country--------------------------------------
     NSIndexPath *path = [self.tableView indexPathForSelectedRow];
     NSDictionary *place = [self.topPlaces objectAtIndex:path.row];
  
     [segue.destinationViewController setPlace:place];
-    [segue.destinationViewController setTitle:[[sender textLabel] text]];			
+    [segue.destinationViewController setTitle:[[sender textLabel] text]];
+//-------------------------------------------------------------------------
 */
+    }
+    else if ([segue.destinationViewController isKindOfClass:[MapViewController class]])
+        
+    {
+        MapViewController *mapVC = segue.destinationViewController;
+        mapVC.annotations = [self mapAnnotations];
+        mapVC.delegate = self;
+        mapVC.title = self.title;
+    }
 }
 
 @end

@@ -12,12 +12,13 @@
 #import "TopPlacesPhotoViewController.h"
 
 @interface PhotosInPlacesTableViewController () <MapViewControllerDelegate>
-
+@property (nonatomic, strong) NSDictionary *photoToDisplay;
 @end
 
 @implementation PhotosInPlacesTableViewController
-@synthesize refreshSpinner;
+
 @synthesize mapButton;
+@synthesize photoToDisplay=_photoToDisplay;
 
 - (void)awakeFromNib
 {
@@ -28,8 +29,7 @@
 
 - (NSMutableArray *)retrievePhotoList
 {
-
-    [refreshSpinner startAnimating];
+    [self startSpinner];
     dispatch_queue_t photoListFetchingQueue =
     dispatch_queue_create("photo list fetching queue", NULL);
     
@@ -39,7 +39,7 @@
                                         maxResults:MAX_RESULTS] mutableCopy];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [refreshSpinner stopAnimating];
+            [self stopSpinner];
             [self.tableView reloadData];
         });
     });
@@ -52,7 +52,6 @@
 - (void)viewDidUnload
 {
     [self setMapButton:nil];
-    [self setRefreshSpinner:nil];
     [super viewDidUnload];
 }
 
@@ -70,42 +69,32 @@
 - (UIImage *)mapViewController:(MapViewController *)sender imageForAnnotation:(id <MKAnnotation>)annotation
 {
     PhotoAnnotation *fpa = (PhotoAnnotation *)annotation;
-    NSURL *url = [FlickrFetcher urlForPhoto:fpa.photo format:FlickrPhotoFormatSquare];
-    NSData *data = [NSData dataWithContentsOfURL:url];
-    return data ? [UIImage imageWithData:data] : nil;
-}
-
-
--(TopPlacesPhotoViewController *)splitViewPhotoViewController
-{
-    UINavigationController *nc = [self.splitViewController.viewControllers lastObject];
-    id pvc = nc.topViewController;
-    if (![pvc isKindOfClass:[TopPlacesPhotoViewController class]]) {
-        pvc = nil;
-    }
-    return pvc;
+       NSURL *url = [FlickrFetcher urlForPhoto:fpa.photo format:FlickrPhotoFormatSquare];
+        NSData *data = [NSData dataWithContentsOfURL:url];
+        return data ? [UIImage imageWithData:data] : nil;
 }
 
 -(void)segueForAnnotation:(id <MKAnnotation>)annotation
 {
 
     PhotoAnnotation *fpa = (PhotoAnnotation *)annotation;
-    NSDictionary *photoToDisplay=fpa.photo;
+    self.photoToDisplay=fpa.photo;
     //---------------------------------------------------
     id vc = [self.splitViewController.viewControllers lastObject];
     if ([vc isKindOfClass:[TopPlacesPhotoViewController class]])
-        [vc setPhoto:photoToDisplay];
+        [vc setPhoto:self.photoToDisplay];
     else
-        [self performSegueWithIdentifier:@"Show Photo" sender:photoToDisplay];
+        [self performSegueWithIdentifier:@"Show Photo" sender:self.photoToDisplay];
 //-----------------------------------------------------
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-//    if ([segue.identifier isEqualToString:@"Show Photo"])
-//    else if ([segue.destinationViewController isEqualToString:@"Show map"])
-    if ([segue.destinationViewController isKindOfClass:[TopPlacesPhotoViewController class]])
+//    if ([segue.destinationViewController isKindOfClass:[TopPlacesPhotoViewController class]])
+    if ([segue.identifier isEqualToString:@"Show Photo"])
     {
+        if (self.view.window)
+        {
            NSIndexPath *path = [self.tableView indexPathForSelectedRow];
            NSDictionary *photo = [self.photos objectAtIndex:path.row];
            [segue.destinationViewController setPhoto:photo];
@@ -114,6 +103,10 @@
     
            [segue.destinationViewController setPhotoTitle : cell.textLabel.text];
            [RecentsUserDefaults saveRecentsUserDefaults:photo];
+        }else
+        {
+            [segue.destinationViewController setPhoto:self.photoToDisplay];
+        }
     }
    else if ([segue.destinationViewController isKindOfClass:[MapViewController class]])
     
@@ -122,8 +115,6 @@
         mapVC.annotations = [self mapAnnotations];
         mapVC.delegate = self;
         mapVC.title = self.title;
-//        [segue.destinationViewController setDelegate:self];
-//        [segue.destinationViewController setAnnotations:[self mapAnnotations]];
     }
     
     [super prepareForSegue:segue sender:sender];

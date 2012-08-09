@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E41AD10015D2D7CE004C3632 /* PlaceAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = E41AD0FF15D2D7CC004C3632 /* PlaceAnnotation.m */; };
 		E4393E5115C7D71D00ADB426 /* TopPlacesPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4393E5015C7D71D00ADB426 /* TopPlacesPhotoViewController.m */; };
 		E4393E5815C8158900ADB426 /* 07-map-marker.png in Resources */ = {isa = PBXBuildFile; fileRef = E4393E5615C8158900ADB426 /* 07-map-marker.png */; };
 		E4393E5915C8158900ADB426 /* 42-photos.png in Resources */ = {isa = PBXBuildFile; fileRef = E4393E5715C8158900ADB426 /* 42-photos.png */; };
@@ -34,6 +35,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E41AD0FE15D2D7CB004C3632 /* PlaceAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaceAnnotation.h; sourceTree = "<group>"; };
+		E41AD0FF15D2D7CC004C3632 /* PlaceAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceAnnotation.m; sourceTree = "<group>"; };
 		E4393E4E15C7D6E300ADB426 /* TopPlacesPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopPlacesPhotoViewController.h; sourceTree = "<group>"; };
 		E4393E5015C7D71D00ADB426 /* TopPlacesPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopPlacesPhotoViewController.m; sourceTree = "<group>"; };
 		E4393E5615C8158900ADB426 /* 07-map-marker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "07-map-marker.png"; sourceTree = "<group>"; };
@@ -129,6 +132,8 @@
 				E4393E5015C7D71D00ADB426 /* TopPlacesPhotoViewController.m */,
 				E4393E4E15C7D6E300ADB426 /* TopPlacesPhotoViewController.h */,
 				E4624B5615C06A4700537F77 /* MyTopPlacesAppDelegate.h */,
+				E41AD0FE15D2D7CB004C3632 /* PlaceAnnotation.h */,
+				E41AD0FF15D2D7CC004C3632 /* PlaceAnnotation.m */,
 				E4624B5715C06A4700537F77 /* MyTopPlacesAppDelegate.m */,
 				E4624B5915C06A4700537F77 /* iPhone.storyboard */,
 				E4624B8B15C16E9200537F77 /* RecentsTableViewController.h */,
@@ -260,6 +265,7 @@
 				E49102E115D0EA0C00B6D6F6 /* FlickrPhotoCache.m in Sources */,
 				E46ADB4B15D1386A00E065EF /* MapViewController.m in Sources */,
 				E46ADB5315D14AA100E065EF /* PhotoAnnotation.m in Sources */,
+				E41AD10015D2D7CE004C3632 /* PlaceAnnotation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

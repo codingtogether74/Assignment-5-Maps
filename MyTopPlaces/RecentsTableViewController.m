@@ -8,8 +8,16 @@
 
 #import "RecentsTableViewController.h"
 #import "RecentsUserDefaults.h"
+#import "PhotoAnnotation.h"
+#import "TopPlacesPhotoViewController.h"
+
+@interface  RecentsTableViewController() <MapViewControllerDelegate>
+@property (nonatomic, strong) NSDictionary *photoToDisplay;
+@end
 
 @implementation RecentsTableViewController
+@synthesize mapButton;
+@synthesize photoToDisplay=_photoToDisplay;
 
 - (void)awakeFromNib
 {
@@ -29,19 +37,71 @@
      [self.tableView reloadData];
 }
 
-- (void) viewWillDisappear:(BOOL)animated {
-	// Show the navigation bar for view controllers when this view disappears
-//	[self.navigationController setNavigationBarHidden:NO animated:animated];
-	[super viewWillDisappear:animated];
+- (NSArray *)mapAnnotations
+{
+    NSMutableArray *annotations = [NSMutableArray arrayWithCapacity:[self.photos count]];
+    for (NSDictionary *photo in self.photos){
+        [annotations addObject:[PhotoAnnotation annotationForPhoto:photo]];
+    }
+    return annotations;
 }
+
+#pragma mark - MapViewControllerDelegate
+
+- (UIImage *)mapViewController:(MapViewController *)sender imageForAnnotation:(id <MKAnnotation>)annotation
+{
+    PhotoAnnotation *fpa = (PhotoAnnotation *)annotation;
+    NSURL *url = [FlickrFetcher urlForPhoto:fpa.photo format:FlickrPhotoFormatSquare];
+    NSData *data = [NSData dataWithContentsOfURL:url];
+    return data ? [UIImage imageWithData:data] : nil;
+}
+
+-(void)segueForAnnotation:(id <MKAnnotation>)annotation
+{
+    
+    PhotoAnnotation *fpa = (PhotoAnnotation *)annotation;
+    self.photoToDisplay=fpa.photo;
+    //---------------------------------------------------
+    id vc = [self.splitViewController.viewControllers lastObject];
+    if ([vc isKindOfClass:[TopPlacesPhotoViewController class]])
+        [vc setPhoto:self.photoToDisplay];
+    else
+        [self performSegueWithIdentifier:@"Show ResPhoto" sender:self.photoToDisplay];
+    //-----------------------------------------------------
+}
+
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    NSIndexPath *path = [self.tableView indexPathForSelectedRow];
-    NSDictionary *photo = [self.photos objectAtIndex:path.row];
-    [segue.destinationViewController setPhoto:photo];
-    [[segue.destinationViewController navigationItem] setTitle:[[sender textLabel] text]];
-    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:path];
+    if ([segue.identifier isEqualToString:@"Show ResPhoto"])
+    {
+        if (self.view.window)
+        {
+          NSIndexPath *path = [self.tableView indexPathForSelectedRow];
+          NSDictionary *photo = [self.photos objectAtIndex:path.row];
+         [segue.destinationViewController setPhoto:photo];
+         [[segue.destinationViewController navigationItem] setTitle:[[sender textLabel] text]];
+         UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:path];
     
-    [segue.destinationViewController setTitle : cell.textLabel.text];
+         [segue.destinationViewController setTitle : cell.textLabel.text];
+        }else
+        {
+            [segue.destinationViewController setPhoto:self.photoToDisplay];
+        }
+    }
+    else if ([segue.destinationViewController isKindOfClass:[MapViewController class]])
+        
+    {
+        MapViewController *mapVC = segue.destinationViewController;
+        mapVC.annotations = [self mapAnnotations];
+        mapVC.delegate = self;
+        mapVC.title = self.title;
+    }
+    
+    [super prepareForSegue:segue sender:sender];
+    
+}
+- (void)viewDidUnload {
+    [self setMapButton:nil];
+    [super viewDidUnload];
 }
 @end
