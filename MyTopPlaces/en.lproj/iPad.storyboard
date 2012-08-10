@@ -312,7 +312,7 @@
                                     </imageView>
                                 </subviews>
                             </scrollView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" style="whiteLarge" id="tA9-RA-sCe">
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" style="whiteLarge" id="tA9-RA-sCe">
                                 <rect key="frame" x="365" y="53" width="37" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="color" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -351,6 +351,7 @@
         <class className="MapViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MapViewController.h"/>
             <relationships>
+                <relationship kind="action" name="modeChanged:" candidateClass="UISegmentedControl"/>
                 <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
                 <relationship kind="outlet" name="modeChanged" candidateClass="UISegmentedControl"/>
             </relationships>

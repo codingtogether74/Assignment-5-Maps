@@ -48,12 +48,12 @@
 
 #pragma mark - MapViewControllerDelegate
 
-- (UIImage *)mapViewController:(MapViewController *)sender imageForAnnotation:(id <MKAnnotation>)annotation
+- (NSData *)mapViewController:(MapViewController *)sender imageForAnnotation:(id <MKAnnotation>)annotation
 {
     PhotoAnnotation *fpa = (PhotoAnnotation *)annotation;
     NSURL *url = [FlickrFetcher urlForPhoto:fpa.photo format:FlickrPhotoFormatSquare];
     NSData *data = [NSData dataWithContentsOfURL:url];
-    return data ? [UIImage imageWithData:data] : nil;
+    return data;
 }
 
 -(void)segueForAnnotation:(id <MKAnnotation>)annotation

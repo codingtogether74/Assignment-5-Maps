@@ -57,8 +57,15 @@
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)aView
 {
-    UIImage *image = [self.delegate mapViewController:self imageForAnnotation:aView.annotation];
-    [(UIImageView *)aView.leftCalloutAccessoryView setImage:image];
+    dispatch_queue_t queue = dispatch_queue_create("Flickr Thumbnails", NULL);
+    dispatch_async(queue, ^{
+     NSData *data = [self.delegate mapViewController:self imageForAnnotation:aView.annotation];
+        dispatch_async(dispatch_get_main_queue(), ^{    
+          UIImage *image = [UIImage imageWithData:data];
+          [(UIImageView *)aView.leftCalloutAccessoryView setImage:image];
+        });
+    });
+    dispatch_release(queue);
 }
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)aView calloutAccessoryControlTapped:(UIControl *)control
